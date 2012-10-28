@@ -1,0 +1,49 @@
+{
+    "name" : "loadfire",
+    "version" : "0.0.1",
+    "description" : "A clean and simple load balancer",
+    "keywords": [
+        "reverse",
+        "proxy",
+        "http",
+        "http-proxy",
+        "load",
+        "balancer",
+        "load-balancer"
+    ],
+    "main" : "./index.js",
+    "bin": {
+        "loadfire": "./bin/loadfire"
+    },
+    "directories" : {
+        "lib" : "./lib"
+    },
+    "dependencies" : {
+        "http-proxy" : "0.8.4",
+        "redis" : "0.7.x",
+        "lru-cache": "2.1.x",
+        "optimist": "0.3.x",
+        "underscore": "1.4.2",
+        "q": "0.8.9",
+        "async": "0.1.22"
+    },
+    "scripts" : {
+        "start" : "node bin/loadfire"
+    },
+    "engines" : {
+        "node" : "0.8.x"
+    },
+    "engineStrict": true,
+    "author" : {
+        "name" : "Aaron O'Mullan",
+        "email" : "aaron.omullan@gmail.com",
+        "url" : "http://friendco.de"
+    },
+    "maintainer" : [
+        "Aaron O'Mullan <aaron.omullan@gmail.com>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/AaronO/loadfire.git"
+    }
+}

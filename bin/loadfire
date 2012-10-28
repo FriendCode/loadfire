@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var _ = require('underscore');
+var fs = require('fs');
+var path = require('path');
+var cluster = require('cluster');
+var util = require('util');
+var optimist = require('optimist');
+
+// Constants
+var HELP_MSG = [
+    'usage: loadfire [options]',
+    '',
+    'Starts a loadfire server',
+    '',
+    'options:',
+    '   -c, --config CONFIGFILE     Location of the configuration file',
+    '   -h, --help                  Display help'
+].join('\n');
+
+
+function LoadFire() {
+    // Nothing
+}
+
+LoadFire.prototype.help = function() {
+    util.puts(HELP_MSG);
+};
+
+LoadFire.prototype.setConfig = function(path) {
+    var data = fs.readFileSync(path);
+    this.config = JSON.parse(data);
+};
+
+LoadFire.prototype.main = function() {
+    // Run master and worker
+};
+
+LoadFire.prototype.run = function(argv) {
+    var help = argv.h || argv.help;
+    var config = argv.c || argv.config;
+    var is_config = !(_.isUndefined(config));
+    var is_help = !(_.isUndefined(help)) || !(is_config);
+
+    if(is_config) {
+        this.setConfig(config);
+        this.main();
+    } else if(is_help) {
+        return this.help();
+    } else {
+        return;
+    }
+};
+
+function main() {
+    var argv = optimist.argv;
+
+    var bin = new LoadFire();
+    bin.run(argv);
+}
+
+// Run main
+main();
