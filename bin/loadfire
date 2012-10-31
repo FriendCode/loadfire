@@ -9,6 +9,8 @@ var cluster = require('cluster');
 var util = require('util');
 var optimist = require('optimist');
 
+var server = require('../lib/server');
+
 // Constants
 var HELP_MSG = [
     'usage: loadfire [options]',
@@ -36,6 +38,8 @@ LoadFire.prototype.setConfig = function(path) {
 
 LoadFire.prototype.main = function() {
     // Run master and worker
+    this.server = new server.Server(this.config);
+    this.server.run();
 };
 
 LoadFire.prototype.run = function(argv) {
