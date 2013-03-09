@@ -16,6 +16,7 @@ function createServer(config) {
 module.exports.createServer = createServer;
 
 // Aliasing
+module.server = server;
 module.exports.patterns = patterns;
 module.exports.middleware = middleware;
 module.exports.groupBalancer = groupBalancer;
