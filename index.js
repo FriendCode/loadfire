@@ -13,11 +13,12 @@ function createServer(config) {
 }
 
 // Exports
-module.exports.createServer = createServer;
+exports.createServer = createServer;
+exports.Server = server.Server;
 
 // Aliasing
-module.server = server;
-module.exports.patterns = patterns;
-module.exports.middleware = middleware;
-module.exports.groupBalancer = groupBalancer;
-module.exports.utils = utils;
+exports.server = server;
+exports.patterns = patterns;
+exports.middleware = middleware;
+exports.groupBalancer = groupBalancer;
+exports.utils = utils;
