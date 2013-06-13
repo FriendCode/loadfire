@@ -1,5 +1,0 @@
-LoadFire is required because we are load balancing between stateful instances (Editor servers and Console servers).
-
-And thus each client for a given session must be managed by the same backend.
-
-All other solutions (hipache from dotcloud) load balance only between stateless instances which is the "easy" option.
