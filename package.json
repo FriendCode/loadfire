@@ -1,6 +1,6 @@
 {
     "name" : "loadfire",
-    "version" : "0.0.1",
+    "version" : "1.0.0",
     "description" : "A clean and simple load balancer",
     "keywords": [
         "reverse",
@@ -20,8 +20,8 @@
     },
     "dependencies" : {
         "http-proxy" : "0.8.4",
-        "optimist": "0.3.x",
-        "underscore": "1.4.2",
+        "optimist": "0.3.0",
+        "underscore": "1.4.4",
         "q": "0.9.6"
     },
     "scripts" : {
@@ -33,11 +33,11 @@
     "engineStrict": true,
     "author" : {
         "name" : "Aaron O'Mullan",
-        "email" : "aaron.omullan@gmail.com",
-        "url" : "http://friendco.de"
+        "email" : "aaron.omullan@friendco.de",
+        "url" : "https://friendco.de"
     },
     "maintainer" : [
-        "Aaron O'Mullan <aaron.omullan@gmail.com>"
+        "Aaron O'Mullan <aaron.omullan@friendco.de>"
     ],
     "repository": {
         "type": "git",
