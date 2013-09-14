@@ -32,7 +32,7 @@ var CONFIG = {
         {
             // resource is some value identify this resource
             // by default it should be the hostname to match
-            resource: 'localhost:8000',
+            selector: loadfire.selectors.host('localhost:8000'),
 
             // List of backends to hit
             backends: EDITOR_SERVERS,
@@ -40,7 +40,7 @@ var CONFIG = {
             // Load balancing pattern
             // As of now a few are builtin
             // random, roundrobin, sticky
-            pattern: 'roundrobin'
+            balancer: loadfire.balancers.roundrobin
         }
     ],
 

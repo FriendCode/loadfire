@@ -1,9 +1,9 @@
 // Requires
-var httpProxy = require('http-proxy');
-var utils = require('./lib/utils');
 var server = require('./lib/server');
-var patterns = require('./lib/patterns');
-var middleware = require('./lib/middleware');
+
+var selectors = require('./lib/selectors/');
+var balancers = require('./lib/balancers/');
+
 var groupBalancer = require('./lib/groupbalancer');
 
 
@@ -18,7 +18,8 @@ exports.Server = server.Server;
 
 // Aliasing
 exports.server = server;
-exports.patterns = patterns;
-exports.middleware = middleware;
+
+exports.selectors = selectors;
+exports.balancers = balancers;
+
 exports.groupBalancer = groupBalancer;
-exports.utils = utils;
