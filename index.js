@@ -5,6 +5,7 @@ var selectors = require('./lib/selectors/');
 var balancers = require('./lib/balancers/');
 
 var groupBalancer = require('./lib/groupbalancer');
+var config = require('./lib/config');
 
 
 function createServer(config) {
@@ -23,3 +24,4 @@ exports.selectors = selectors;
 exports.balancers = balancers;
 
 exports.groupBalancer = groupBalancer;
+exports.config = config;
