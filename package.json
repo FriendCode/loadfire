@@ -19,6 +19,7 @@
         "lib" : "./lib"
     },
     "dependencies" : {
+        "connect": "2.11.0",
         "http-proxy" : "0.10.0",
         "optimist": "0.3.0",
         "underscore": "1.4.4",

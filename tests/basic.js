@@ -40,7 +40,14 @@ var CONFIG = {
             // Load balancing pattern
             // As of now a few are builtin
             // random, roundrobin, sticky
-            balancer: loadfire.balancers.roundrobin
+            balancer: loadfire.balancers.roundrobin,
+
+            middleware: [
+                function(req, res, next) {
+                    console.log('heelo');
+                    next();
+                }
+            ],
         }
     ],
 
