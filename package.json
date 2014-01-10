@@ -23,7 +23,9 @@
         "http-proxy" : "0.10.0",
         "optimist": "0.3.0",
         "underscore": "1.4.4",
-        "q": "0.9.6"
+        "q": "0.9.6",
+
+        "qplus": "0.0.1"
     },
     "scripts" : {
         "start" : "node bin/loadfire"
