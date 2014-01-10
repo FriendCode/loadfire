@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Loadfire by FriendCode</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Loadfire</h1>
+        <h2>A scriptable Load Balancer &amp; Reverse Proxy in NodeJS</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/FriendCode/loadfire/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/FriendCode/loadfire/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/FriendCode/loadfire" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="loadfire" class="anchor" href="#loadfire"><span class="octicon octicon-link"></span></a>LoadFire</h1>
+
+<p>LoadFire is an easy to script load balancer and reverse proxy in NodeJS.</p>
+
+<p>It allows you to write your own pieces of logic as "Patterns" and the core engine takes care of all the proxying logic so you don't have to worry about it.</p>
+
+<p><strong>The real power is that all it's behavior is entirely scriptable in JavaScript (NodeJS). :)</strong></p>
+
+<h3>
+<a name="this-allows-for-many-different-use-cases-such-as" class="anchor" href="#this-allows-for-many-different-use-cases-such-as"><span class="octicon octicon-link"></span></a>This allows for many different use cases, such as:</h3>
+
+<ul>
+<li>Dynamic realtime proxying rules (domain mappings stored in Redis for example). Such things are useful for PaaSs </li>
+<li>Add pieces of middleware to your reverse proxy</li>
+<li>Customizable load balancing patterns (Sticky, RoundRobin, ...)</li>
+</ul><h3>
+<a name="it-supports-proxying" class="anchor" href="#it-supports-proxying"><span class="octicon octicon-link"></span></a>It supports proxying:</h3>
+
+<ul>
+<li>HTTP/HTTPS</li>
+<li>WebSockets</li>
+</ul><h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples:</h2>
+
+<h3>
+<a name="proxying-http-traffic-using-roundrobin-pattern" class="anchor" href="#proxying-http-traffic-using-roundrobin-pattern"><span class="octicon octicon-link"></span></a>Proxying HTTP traffic using RoundRobin pattern</h3>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'http'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">loadfire</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'loadfire'</span><span class="p">);</span>
+
+
+<span class="kd">var</span> <span class="nx">EDITOR_PORTS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7001</span><span class="p">,</span> <span class="mi">7002</span><span class="p">,</span> <span class="mi">7003</span><span class="p">,</span><span class="mi">7004</span><span class="p">];</span>
+
+<span class="kd">var</span> <span class="nx">EDITOR_SERVERS</span> <span class="o">=</span> <span class="nx">EDITOR_PORTS</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">host</span><span class="o">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
+        <span class="nx">port</span><span class="o">:</span> <span class="nx">x</span>
+    <span class="p">};</span>
+<span class="p">});</span>
+
+<span class="c1">// Start all our different http servers</span>
+<span class="kd">function</span> <span class="nx">startEditorServers</span><span class="p">(</span><span class="nx">ports</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ports</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">port</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Setup HTTP Server</span>
+        <span class="kd">var</span> <span class="nx">httpServer</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Output the port number the server is running on</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">'Content-Type'</span><span class="o">:</span> <span class="s1">'text/plain'</span><span class="p">});</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">port</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+        <span class="p">});</span>
+
+        <span class="c1">// Listen on assigned port</span>
+        <span class="nx">httpServer</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Config for our loadfire server</span>
+<span class="kd">var</span> <span class="nx">CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'resources'</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="c1">// resource is some value identify this resource</span>
+            <span class="c1">// by default it should be the hostname to match</span>
+            <span class="nx">resource</span><span class="o">:</span> <span class="s1">'localhost:8000'</span><span class="p">,</span>
+
+            <span class="c1">// List of backends to hit</span>
+            <span class="nx">backends</span><span class="o">:</span> <span class="nx">EDITOR_SERVERS</span><span class="p">,</span>
+
+            <span class="c1">// Load balancing pattern</span>
+            <span class="c1">// As of now a few are builtin</span>
+            <span class="c1">// random, roundrobin, sticky</span>
+            <span class="nx">pattern</span><span class="o">:</span> <span class="s1">'roundrobin'</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+
+    <span class="c1">// Server to start loadfire on</span>
+    <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Start our http servers</span>
+    <span class="nx">startEditorServers</span><span class="p">(</span><span class="nx">EDITOR_PORTS</span><span class="p">);</span>
+
+    <span class="c1">// Setup our load balancer with the above config</span>
+    <span class="kd">var</span> <span class="nx">loadServer</span> <span class="o">=</span> <span class="nx">loadfire</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">CONFIG</span><span class="p">);</span>
+
+    <span class="c1">// Now start our load balancer</span>
+    <span class="nx">loadServer</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+
+    <span class="c1">// Check out localhost:8000</span>
+    <span class="c1">// Refresh a few times and you'll see different port numbers appear</span>
+    <span class="c1">// depending on which http server the requests are proxied to</span>
+    <span class="c1">// since we are using the roundrobin pattern it will cycle through them</span>
+<span class="p">}</span>
+
+<span class="c1">// Run main</span>
+<span class="nx">main</span><span class="p">();</span>
+</pre></div>
+
+<p>It was initially built to satisfy our needs at FriendCode, and we've been using it in product for months without any issues, so it can be considered as stable.</p>
+
+<p>The API however will be changed soon due to some design decisions aiming to simplify it's API. (Patterns are quite monolithic as of now, they will be split up into different parts: matcher, mapper, balancer, store).</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
