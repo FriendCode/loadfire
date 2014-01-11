@@ -17,7 +17,12 @@ function startEditorServers(ports) {
         // Setup HTTP Server
         var httpServer = http.createServer(function(req, res) {
             // Output the port number the server is running on
+            console.log('responding');
             res.writeHead(200, {'Content-Type': 'text/plain'});
+            console.log('URL =', req.url);
+            req.on('data', function(data) {
+                console.log("EDITOR DATA =", data.toString());
+            });
             res.end(port.toString());
         });
 
@@ -57,7 +62,11 @@ var CONFIG = {
 
 function main() {
     // Start our http servers
-    startEditorServers(EDITOR_PORTS);
+    setTimeout(function() {
+        startEditorServers(EDITOR_PORTS);
+        console.log('Started editors');
+    }, 3000);
+
 
     // Setup our load balancer with the above config
     var loadServer = loadfire.createServer(CONFIG);
