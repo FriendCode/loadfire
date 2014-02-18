@@ -25,7 +25,7 @@
         "underscore": "1.4.4",
         "q": "0.9.6",
 
-        "qplus": "0.0.1"
+        "qplus": "0.1.0"
     },
     "scripts" : {
         "start" : "node bin/loadfire"
