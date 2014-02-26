@@ -29,7 +29,7 @@ var CONFIG = {
             balancer: function(backends, req, cb) {
                 return cb(null, {
                     host: 'localhost',
-                    port: 8080
+                    port: 8081
                 });
             },
 
