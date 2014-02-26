@@ -20,7 +20,7 @@
     },
     "dependencies" : {
         "connect": "2.11.0",
-        "http-proxy" : "0.10.0",
+        "http-proxy" : "1.0.2",
         "optimist": "0.3.0",
         "underscore": "1.4.4",
         "q": "0.9.6",
