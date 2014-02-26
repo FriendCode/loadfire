@@ -24,7 +24,7 @@
         "optimist": "0.3.0",
         "underscore": "1.4.4",
         "q": "0.9.6",
-
+        "event-stream": "3.1.0",
         "qplus": "0.1.0"
     },
     "scripts" : {
